@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   constructor(private accountService:AccountService) { }
 
   ngOnInit(): void {
-  
+
   }
 
   register(){
@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
       next: () => {
         this.cancel();
       },
-      error: error => console.error(error)  
+      error: error => alert(error)
     })
   }
 
