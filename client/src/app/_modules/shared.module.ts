@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 
 
@@ -9,10 +10,14 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
   declarations: [],
   imports: [
     CommonModule,
+    TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
+    NgxGalleryModule
   ],
   exports: [
-    BsDropdownModule
+    BsDropdownModule,
+    TabsModule,
+    NgxGalleryModule
   ]
 })
 export class SharedModule { }
