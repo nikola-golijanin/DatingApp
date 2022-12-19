@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -12,12 +13,16 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
     CommonModule,
     TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
-    NgxGalleryModule
+    NgxGalleryModule,
+    NgxSpinnerModule.forRoot({
+      type:'ball-scale-multiple'
+    })
   ],
   exports: [
     BsDropdownModule,
     TabsModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    NgxSpinnerModule
   ]
 })
 export class SharedModule { }
