@@ -1,5 +1,3 @@
-using System.Security.Claims;
-using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
@@ -8,7 +6,6 @@ using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -27,13 +24,13 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedList<MemberDTO>>> GetUsers([FromQuery]UserParams userParams)
+        public async Task<ActionResult<PagedList<MemberDTO>>> GetUsers([FromQuery] UserParams userParams)
         {
 
             var currentUser = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
             userParams.CurrentUsername = currentUser.UserName;
 
-            if(string.IsNullOrEmpty(userParams.Gender))
+            if (string.IsNullOrEmpty(userParams.Gender))
             {
                 userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
             }
@@ -51,7 +48,7 @@ namespace API.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{username}",Name = "GetUserByUsername")]
+        [HttpGet("{username}", Name = "GetUserByUsername")]
         public async Task<ActionResult<MemberDTO>> GetUser(string username)
         {
             return await _userRepository.GetMemberAsync(username);
@@ -75,26 +72,26 @@ namespace API.Controllers
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            if(user == null) return NotFound();
+            if (user == null) return NotFound();
 
-            var result =  await _photoService.AddPhotoAsync(file);
+            var result = await _photoService.AddPhotoAsync(file);
 
-            if(result.Error != null) return BadRequest(result.Error.Message);
+            if (result.Error != null) return BadRequest(result.Error.Message);
 
             var photo = new Photo
             {
                 Url = result.SecureUrl.AbsoluteUri,
-                PublicId =result.PublicId
+                PublicId = result.PublicId
             };
 
-            if(user.Photos.Count == 0) photo.IsMain = true;
+            if (user.Photos.Count == 0) photo.IsMain = true;
 
             user.Photos.Add(photo);
 
-            if(await _userRepository.SaveAllAsync())
+            if (await _userRepository.SaveAllAsync())
             {
                 //We can use CreatedAtAction(nameof(GetUser), new { username = user.UserName} , _mapper.Map<PhotoDTO>(photo))
-                return CreatedAtRoute("GetUserByUsername", new { username = user.UserName} , _mapper.Map<PhotoDTO>(photo));
+                return CreatedAtRoute("GetUserByUsername", new { username = user.UserName }, _mapper.Map<PhotoDTO>(photo));
             }
 
             return BadRequest("Problem adding photo");
@@ -119,7 +116,7 @@ namespace API.Controllers
             return BadRequest("Failed to set main photo");
         }
 
-         [HttpDelete("delete-photo/{photoId}")]
+        [HttpDelete("delete-photo/{photoId}")]
         public async Task<ActionResult> DeletePhoto(int photoId)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());

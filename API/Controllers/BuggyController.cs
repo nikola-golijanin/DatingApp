@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
     public class BuggyController : BaseApiController
     {
- private readonly DataContext _context;
+        private readonly DataContext _context;
         public BuggyController(DataContext context)
         {
             _context = context;
